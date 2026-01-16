@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Authentication</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card">
+  <div class="tab-header">
+    <div class="tab active" id="loginTab" onclick="showLogin()">Login</div>
+    <div class="tab" id="signupTab" onclick="showSignup()">Sign Up</div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginBox">
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="loginMsg" class="message"></p>
+  </div>
+
+  <!-- SIGN UP -->
+  <div id="signupBox" style="display:none;">
+    <input type="email" id="signupEmail" placeholder="Email">
+    <input type="password" id="signupPassword" placeholder="Password (min 8 chars)">
+    <button onclick="signup()">Sign Up</button>
+    <p id="signupMsg" class="message"></p>
+  </div>
+
+  <!-- EMAIL VERIFICATION -->
+  <div id="verifyBox" style="display:none;">
+    <p class="info">
+      An email verification link has been sent.<br>
+      Please verify your email before logging in.
+    </p>
+    <button onclick="resendEmail()">Resend Email</button>
+    <button class="secondary" onclick="acceptVerification()">I Have Accepted</button>
+    <p id="verifyMsg" class="message"></p>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
