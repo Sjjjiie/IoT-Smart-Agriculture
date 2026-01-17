@@ -5,15 +5,12 @@
   <title>Authentication</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-<div class="card">
+<body class="auth-page"> <div class="auth-container">
   <div class="tab-header">
     <div class="tab active" id="loginTab" onclick="showLogin()">Login</div>
     <div class="tab" id="signupTab" onclick="showSignup()">Sign Up</div>
   </div>
 
-  <!-- LOGIN -->
   <div id="loginBox">
     <input type="email" id="loginEmail" placeholder="Email">
     <input type="password" id="loginPassword" placeholder="Password">
@@ -21,7 +18,6 @@
     <p id="loginMsg" class="message"></p>
   </div>
 
-  <!-- SIGN UP -->
   <div id="signupBox" style="display:none;">
     <input type="email" id="signupEmail" placeholder="Email">
     <input type="password" id="signupPassword" placeholder="Password (min 8 chars)">
@@ -29,7 +25,6 @@
     <p id="signupMsg" class="message"></p>
   </div>
 
-  <!-- EMAIL VERIFICATION -->
   <div id="verifyBox" style="display:none;">
     <p class="info">
       An email verification link has been sent.<br>
@@ -41,6 +36,6 @@
   </div>
 </div>
 
-<script type="module" src="app.js"></script>
+<script type="module" src="auth.js"></script>
 </body>
 </html>

@@ -1,174 +1,219 @@
-import { auth } from "./config.js";
+import { auth, db } from "./config.js";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendEmailVerification,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  ref,
+  onValue,
+  set,
+  query,
+  orderByKey,
+  limitToLast
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-/* ===== TAB CONTROL ===== */
-window.showLogin = function () {
-  document.getElementById("loginBox").style.display = "block";
-  document.getElementById("signupBox").style.display = "none";
-  document.getElementById("verifyBox").style.display = "none";
-  document.getElementById("loginTab").classList.add("active");
-  document.getElementById("signupTab").classList.remove("active");
-};
+/* ===================== DOM ELEMENTS ===================== */
+const rainStatus = document.getElementById("rainStatus");
+const rainStatusIcon = document.getElementById("rainStatusIcon");
+const soilStatus = document.getElementById("soilStatus");
+const soilStatusIcon = document.getElementById("soilStatusIcon");
 
-window.showSignup = function () {
-  document.getElementById("loginBox").style.display = "none";
-  document.getElementById("signupBox").style.display = "block";
-  document.getElementById("verifyBox").style.display = "none";
-  document.getElementById("signupTab").classList.add("active");
-  document.getElementById("loginTab").classList.remove("active");
-};
+const gateSwitch = document.getElementById("gateSwitch");
+const roofSwitch = document.getElementById("roofSwitch");
 
-/* ===== INPUT VALIDATION ===== */
-function validEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+/* ===================== STATE ===================== */
+let isUpdatingFromBackend = false;
+
+/* ===================== CHARTS ===================== */
+const rainChart = new Chart(document.getElementById("rainChart"), {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [{
+      label: "Rain Sensor Value",
+      data: [],
+      borderColor: "#2196F3",
+      backgroundColor: "rgba(33,150,243,0.2)",
+      tension: 0.3
+    }]
+  },
+options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    // Add layout padding to keep labels inside the white box
+    layout: {
+      padding: {
+        bottom: 20, 
+        left: 10,
+        right: 10
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 10
+          },
+          maxRotation: 45,
+          minRotation: 45,
+          autoSkip: true,
+          maxTicksLimit: 10 
+        }
+      },
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+const soilChart = new Chart(document.getElementById("soilChart"), {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [{
+      label: "Soil Moisture Value",
+      data: [],
+      borderColor: "#4CAF50",
+      backgroundColor: "rgba(76,175,80,0.2)",
+      tension: 0.3
+    }]
+  },
+options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    // Add layout padding to keep labels inside the white box
+    layout: {
+      padding: {
+        bottom: 20, 
+        left: 10,
+        right: 10
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 10 
+          },
+          maxRotation: 45,
+          minRotation: 45,
+          autoSkip: true,
+          maxTicksLimit: 10 
+        }
+      },
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+/* ===================== HELPERS ===================== */
+function addDataToChart(chart, label, value) {
+  if (chart.data.labels.length >= 20) {
+    chart.data.labels.shift();
+    chart.data.datasets[0].data.shift();
+  }
+  chart.data.labels.push(label);
+  chart.data.datasets[0].data.push(value);
+  chart.update();
 }
 
-/* ===== SIGN UP ===== */
-window.signup = function () {
-  const email = document.getElementById("signupEmail").value.trim();
-  const password = document.getElementById("signupPassword").value;
-  const msg = document.getElementById("signupMsg");
+/* ===================== LIVE SENSOR DATA ===================== */
+onValue(ref(db, "latest"), (snap) => {
+  const data = snap.val();
+  if (!data) return;
 
-  // Clear previous message
-  msg.innerText = "";
+  const now = new Date().toLocaleTimeString();
 
-  // Check if fields are empty
-  if (!email || !password) {
-    msg.innerText = "Please fill in both email and password.";
+  const rainValue = data.rainValue ?? 4095;
+  const rainText = data.rainStatus ?? "Not Raining";
+
+  const soilValue = data.soilValue ?? 4095;
+  const soilText = data.soilStatus ?? "Dry";
+
+  rainStatus.innerText = rainText;
+  soilStatus.innerText = soilText;
+
+  // Rain icon
+  rainStatusIcon.innerText =
+    rainText === "Raining" ? "☔️" : "🌤";
+
+  // Soil icon
+  soilStatusIcon.innerText =
+    soilText === "Wet" ? "💦" : "🔥";
+
+  addDataToChart(rainChart, now, rainValue);
+  addDataToChart(soilChart, now, soilValue);
+});
+
+/* ===================== ACTUATOR STATUS FROM ESP32 ===================== */
+onValue(ref(db, "latest"), (snap) => {
+  const outputs = snap.val();
+  if (!outputs) return;
+
+  isUpdatingFromBackend = true;
+
+  gateSwitch.checked = outputs.servoGateAngle > 0;
+  roofSwitch.checked = outputs.servoRoofAngle > 0;
+
+  isUpdatingFromBackend = false;
+});
+
+/* ===================== MANUAL CONTROL (USER → FIREBASE) ===================== */
+window.setGate = (state) => {
+  if (isUpdatingFromBackend) return;
+  
+  // Check if user is actually logged in before writing
+  if (!auth.currentUser) {
+    console.error("You must be logged in to control the gate.");
     return;
   }
 
-  // Validate email format
-  if (!validEmail(email)) {
-    msg.innerText = "Please enter a valid email address.";
-    return;
-  }
-
-  // Validate password length
-  if (password.length < 8) {
-    msg.innerText = "Password must be at least 8 characters.";
-    return;
-  }
-
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((cred) => {
-      sendEmailVerification(cred.user)
-        .then(() => {
-          document.getElementById("signupBox").style.display = "none";
-          document.getElementById("verifyBox").style.display = "block";
-
-          document.getElementById("verifyBox").querySelector(".info").innerHTML =
-            `An email verification link has been sent to <b>${cred.user.email}</b>.<br>
-             Please verify your email before logging in.`;
-        });
-    })
-    .catch((err) => {
-      // Handle specific Firebase signup errors
-      switch (err.code) {
-        case 'auth/email-already-in-use':
-          msg.innerText = "This email is already registered.";
-          break;
-        case 'auth/invalid-email':
-          msg.innerText = "The email address format is incorrect.";
-          break;
-        case 'auth/weak-password':
-          msg.innerText = "The password is too weak.";
-          break;
-        case 'auth/network-request-failed':
-          msg.innerText = "Network error. Please check your connection.";
-          break;
-        default:
-          msg.innerText = "Signup failed. Please try again.";
-          break;
-      }
-      console.error("Signup Error Code:", err.code);
-    });
+  set(ref(db, "manual_control"), { gateState: state ? "ON" : "OFF" })
+    .catch(err => console.error("Write failed:", err));
 };
 
-/* ===== RESEND VERIFICATION ===== */
-window.resendEmail = function () {
-  const user = auth.currentUser;
-  if (user) {
-    sendEmailVerification(user)
-      .then(() => {
-        document.getElementById("verifyMsg").innerText =
-          "Verification email resent.";
-      });
+window.setRoof = (state) => {
+  if (isUpdatingFromBackend) return;
+
+  if (!auth.currentUser) {
+    console.error("You must be logged in to control the roof.");
+    return;
   }
+
+  set(ref(db, "manual_control"), { roofState: state ? "ON" : "OFF" })
+    .catch(err => console.error("Write failed:", err));
 };
 
-/* ===== ACCEPT VERIFICATION ===== */
-window.acceptVerification = function () {
-  auth.currentUser.reload().then(() => {
-    if (auth.currentUser.emailVerified) {
-      window.location.href = "index.html";
-    } else {
-      document.getElementById("verifyMsg").innerText =
-        "Email not verified yet.";
-    }
+/* ===================== HISTORICAL DATA ===================== */
+const historyRef = query(
+  ref(db, "sensor_readings"),
+  orderByKey(),
+  limitToLast(50)
+);
+
+onValue(historyRef, (snap) => {
+  const data = snap.val();
+  if (!data) return;
+
+  Object.keys(data).sort().forEach(ts => {
+    const d = data[ts];
+    const time = new Date(Number(ts)).toLocaleTimeString();
+
+    addDataToChart(rainChart, time, d.rainValue ?? 4095);
+    addDataToChart(soilChart, time, d.soilValue ?? 4095);
   });
-};
+});
 
-/* ===== LOGIN ===== */
-window.login = function () {
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
-  const msg = document.getElementById("loginMsg");
-
-  // Clear previous messages
-  msg.innerText = "";
-
-  // Basic validation before calling Firebase
-  if (!email || !password) {
-    msg.innerText = "Please enter both email and password.";
-    return;
-  }
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then((cred) => {
-      if (!cred.user.emailVerified) {
-        msg.innerText = "Please verify your email first.";
-        signOut(auth);
-        return;
-      }
-      window.location.href = "index.html";
-    })
-    .catch((err) => {
-      // Handle specific error codes for a better user experience
-      switch (err.code) {
-        case 'auth/invalid-email':
-          msg.innerText = "The email address is not valid.";
-          break;
-        case 'auth/user-not-found':
-        case 'auth/wrong-password':
-        case 'auth/invalid-credential':
-          msg.innerText = "Incorrect email or password.";
-          break;
-        case 'auth/too-many-requests':
-          msg.innerText = "Too many failed attempts. Please try again later.";
-          break;
-        default:
-          msg.innerText = "Login failed. Please try again.";
-          break;
-      }
-      console.error(err.code); 
-    });
-};
-
-/* ===== LOGOUT (USED IN index.html) ===== */
 window.logout = function () {
+  // Only show the custom modal
   document.getElementById("logoutModal").style.display = "flex";
 };
 
 window.confirmLogout = function () {
   signOut(auth).then(() => {
-    window.location.href = "index.html";
+    window.location.href = "login.html";
+  }).catch((error) => {
+    console.error("Logout Error:", error);
   });
 };
 

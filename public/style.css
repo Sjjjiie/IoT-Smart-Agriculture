@@ -3,278 +3,221 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* ===== Page Background ===== */
 body {
   user-select: none;
   min-height: 100vh;
-  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  background: #b7ffb9; 
+  color: #333;
+  padding-bottom: 40px;
+}
+
+/* ===== Full Width Header ===== */
+.main-header {
+  height: 80px;
+  width: 100%;                  
+  background: #ffffff; 
+  border-bottom: 2px solid #2E7D32;
+  padding: 15px 0;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
+  position: relative;
+}
+
+.header-content {
+  width: 100%;
+  display: flex;
   justify-content: center;
-  color: #333;
-}
-
-/* Tabs */
-.tab-header {
-  display: flex;
-  margin-bottom: 20px;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.tab {
-  flex: 1;
-  text-align: center;
-  padding: 10px;
-  cursor: pointer;
-  border-bottom: 2px solid #ccc;
-}
-
-.tab.active {
-  border-bottom: 3px solid #4CAF50;
-  font-weight: bold;
-}
-
-.message {
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  text-align: center;
-  display: none; 
-}
-
-/* Specific style for errors */
-.message:not(:empty) {
-  display: block;
-  color: #C62828;            
-}
-
-/* ===== Card Container ===== */
-.card {
-  background: #ffffff;
-  width: 360px;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* ===== Headings ===== */
-.card h1,
-.card h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #2E7D32;
-}
-
-/* ===== Input Fields ===== */
-.card input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-.card input:focus {
-  outline: none;
-  border-color: #4CAF50;
-}
-
-/* ===== Buttons ===== */
-.card button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  background: #4CAF50;
-  color: white;
-  transition: background 0.3s ease;
-}
-
-.card button:hover {
-  background: #388E3C;
-}
-
-/* Secondary button (e.g. Sign Up) */
-.card button.secondary {
-  background: #eeeeee;
-  color: #333;
-}
-
-.card button.secondary:hover {
-  background: #dddddd;
-}
-
-/* ===== Messages ===== */
-#message {
-  margin-top: 10px;
-  text-align: center;
-  font-size: 14px;
-  color: red;
-}
-
-/* ===== Dashboard Layout ===== */
-.dashboard {
-  background: white;
-  width: 90%;
-  max-width: 900px;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  position: relative;
 }
 
-.dashboard-header h1 {
+.title-group h1 {
   color: #2E7D32;
+  font-size: 24px;
 }
 
-/* ===== Sensor Cards ===== */
-.sensor-grid {
+.main-header .logout-btn {
+  position: absolute;
+  right: 20px;
+  background: #ffffff;
+  color: #2E7D32;
+  border: 2px solid #2E7D32;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.main-header .logout-btn:hover {
+  background: #2E7D32;
+  color: #ffffff;
+}
+
+/* ===== Layout Container ===== */
+.dashboard.compact, 
+.graphs-row, 
+.controls {
+  width: 95%;
+  max-width: 1300px;
+  margin: 0 auto 20px auto;
+}
+
+/* ===== Sensor Cards (Top Row) ===== */
+.dashboard.compact {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
-.sensor-card {
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  border-left: 6px solid #4CAF50;
-}
-
-.sensor-card h3 {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.sensor-value {
-  font-size: 28px;
-  font-weight: bold;
-  color: #4CAF50;
-}
-
-/* ===== Status Colors ===== */
-.status-safe {
-  color: #2E7D32;
-}
-
-.status-warning {
-  color: #F9A825;
-}
-
-.status-danger {
-  color: #C62828;
-}
-
-/* ===== Logout Button ===== */
-.logout-btn {
+.status-card {
   background: white;
-  padding: 10px 15px;
-  margin-top: 8px;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  border: 2px solid #4CAF50; 
-  color: black;
-  transition: background 0.3s ease;
+  padding: 30px;
+  border-radius: 20px; /* Rounded corners as seen in your image */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  text-align: center;
 }
 
-.logout-btn:hover {
-  background: #4CAF50;
+.status-card h3 {
+  color: #2E7D32;
+  margin-bottom: 10px;
 }
 
-/* Logout Modal */
-#logoutModal {
-  display: none; 
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
-  backdrop-filter: blur(4px);    /* Adds a modern blurred effect */
+.status-icon {
+  font-size: 60px;
+  margin: 15px 0;
+}
+
+/* ===== Graphs Row ===== */
+.graphs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.graph-card {
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.graph-card h3 {
+  text-align: center;
+  color: #2E7D32;
+  margin-bottom: 15px;
+}
+
+.graph-card canvas {
+  flex-grow: 1;
+  width: 100% !important;
+}
+
+/* ===== Manual Control Panel ===== */
+.controls {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.controls h2 {
+  color: #2E7D32;
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.control-row.dual {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.control-group {
+  flex: 1;
+  min-width: 250px;
+  background: #fdfdfd;
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid #eee;
+  text-align: center;
+}
+
+.switch-row {
+  display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;                 /* Ensures it stays on top */
+  gap: 15px;
+  margin-top: 10px;
 }
 
-/* ===== Modal Box Container ===== */
-.modal-box {
-  background: #ffffff;
-  width: 350px;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+/* Toggle Switch */
+.switch {
   position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input { display: none; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px; width: 18px;
+  left: 4px; bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider { background-color: #4CAF50; }
+input:checked + .slider:before { transform: translateX(24px); }
+
+/* ===== Modal ===== */
+#logoutModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 350px;
   text-align: center;
+  position: relative;
 }
 
-/* ===== Modal Text ===== */
-.modal-box p {
-  font-size: 20px;
-  font-weight: bold;
-  color: black;               
-  margin-bottom: 25px;
-}
-
-/* ===== Close Icon ===== */
 .modal-close {
   position: absolute;
-  top: 15px;
-  right: 15px;                 
+  top: 10px; left: 15px;
   cursor: pointer;
   font-size: 20px;
   color: #999;
-  transition: color 0.2s;
-}
-
-.modal-close:hover {
-  color: #C62828; 
-}
-
-/* ===== Modal Buttons ===== */
-.modal-box button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-/* Confirm Button */
-.modal-box button:not(.secondary) {
-  background: #4CAF50;
-  color: white;
-}
-
-.modal-box button:not(.secondary):hover {
-  background: #388E3C;
-}
-
-/* Cancel Button */
-.modal-box button.secondary {
-  background: #eeeeee;
-  color: #333;
-}
-
-.modal-box button.secondary:hover {
-  background: #dddddd;
 }
