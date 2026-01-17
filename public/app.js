@@ -197,7 +197,7 @@ window.setGate = (state) => {
     return;
   }
 
-  set(ref(db, "manual_control"), { gateState: state ? "ON" : "OFF" })
+  update(ref(db, "manual_control"), { gateState: state ? "ON" : "OFF" })
     .catch(err => console.error("Write failed:", err));
 };
 
@@ -209,7 +209,7 @@ window.setRoof = (state) => {
     return;
   }
 
-  set(ref(db, "manual_control"), { roofState: state ? "ON" : "OFF" })
+  update(ref(db, "manual_control"), { roofState: state ? "ON" : "OFF" })
     .catch(err => console.error("Write failed:", err));
 };
 

@@ -25,16 +25,17 @@ def sensors():
 def manual_control():
     control = db.reference("manual_control").get()
     
-    # If the node doesn't exist yet, return default integers for the ESP32
     if control is None:
         return jsonify({"gateState": 0, "roofState": 0}), 200
     
-    gate_val = control.get("gateState", "OFF")
-    roof_val = control.get("roofState", "OFF")
+    # Get values, defaulting to "OFF"
+    gate_raw = control.get("gateState", "OFF")
+    roof_raw = control.get("roofState", "OFF")
     
+    # Translate strings to integers for ESP32
     payload = {
-        "gateState": 1 if gate_val == "ON" or gate_val == 1 else 0,
-        "roofState": 1 if roof_val == "ON" or roof_val == 1 else 0
+        "gateState": 1 if gate_raw == "ON" else 0,
+        "roofState": 1 if roof_raw == "ON" else 0
     }
     
     return jsonify(payload), 200

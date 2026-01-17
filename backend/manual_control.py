@@ -11,23 +11,9 @@ def start_manual_control_listener():
         if event.data is None:
             return
 
-        # Extract the strings "ON" or "OFF" directly
-        gate_val = event.data.get("gateState", "OFF")
-        roof_val = event.data.get("roofState", "OFF")
+        gate_val = db.reference("manual_control/gateState").get()
+        roof_val = db.reference("manual_control/roofState").get()
 
-        # Convert to 1 (ON) or 0 (OFF) for the ESP32 API
-        payload = {
-            "gateState": 1 if gate_val == "ON" else 0,
-            "roofState": 1 if roof_val == "ON" else 0
-        }
-
-        print(f"🎮 Manual control received: Gate={gate_val}, Roof={roof_val}")
-
-        try:
-            # Post the strings to your backend API
-            response = requests.post(ESP32_CONTROL_URL, json=payload)
-            print("📤 API Response Status:", response.status_code)
-        except Exception as e:
-            print("❌ Connection error:", e)
+        print(f"🎮 Dashboard Change Detected: Gate={gate_val}, Roof={roof_val}")
 
     ref.listen(listener)
