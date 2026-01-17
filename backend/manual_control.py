@@ -11,9 +11,6 @@ def start_manual_control_listener():
         if event.data is None:
             return
 
-        gate_val = db.reference("manual_control/gateState").get()
-        roof_val = db.reference("manual_control/roofState").get()
-
-        print(f"🎮 Dashboard Change Detected: Gate={gate_val}, Roof={roof_val}")
+        print(f"✨ Dashboard Update Detected: {event.data}")
 
     ref.listen(listener)

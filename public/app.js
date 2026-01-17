@@ -151,6 +151,15 @@ onValue(ref(db, "latest"), (snap) => {
   const data = snap.val();
   if (!data) return;
 
+  isUpdatingFromBackend = true;
+  if (gateSwitch) {
+    gateSwitch.checked = (data.servoGateAngle > 0);
+  }
+  
+  if (roofSwitch) {
+    roofSwitch.checked = (data.servoRoofAngle > 0);
+  }
+
   const now = new Date().toLocaleTimeString();
 
   const rainValue = data.rainValue ?? 4095;
@@ -172,17 +181,6 @@ onValue(ref(db, "latest"), (snap) => {
 
   addDataToChart(rainChart, now, rainValue);
   addDataToChart(soilChart, now, soilValue);
-});
-
-/* ===================== ACTUATOR STATUS FROM ESP32 ===================== */
-onValue(ref(db, "latest"), (snap) => {
-  const outputs = snap.val();
-  if (!outputs) return;
-
-  isUpdatingFromBackend = true;
-
-  gateSwitch.checked = outputs.servoGateAngle > 0;
-  roofSwitch.checked = outputs.servoRoofAngle > 0;
 
   isUpdatingFromBackend = false;
 });
