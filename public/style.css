@@ -6,19 +6,132 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ===== Page Background ===== */
+/* ===== Page Backgrounds ===== */
 body {
   user-select: none;
   min-height: 100vh;
-  background: #b7ffb9; 
+  background: #b7ffb9;
   color: #333;
   padding-bottom: 40px;
 }
 
+/* Specific centering only for Login Page */
+body.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Padding for Dashboard Page to allow scrolling */
+body:not(.auth-page) {
+  padding-top: 0; 
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 40px; 
+}
+
+/* ===== AUTH COMPONENTS (Login/Signup) ===== */
+.auth-container {
+  background: #ffffff;
+  width: 380px;
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.tab-header {
+  display: flex;
+  margin-bottom: 25px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 2px solid #eee;
+  color: #888;
+  transition: 0.3s;
+}
+
+.tab.active {
+  border-bottom: 3px solid #4CAF50;
+  color: #2E7D32;
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #4CAF50;
+  color: white;
+  transition: 0.3s;
+}
+
+.auth-container button:hover { background: #388E3C; }
+
+.auth-container button.secondary {
+  background: #f0f0f0;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Message Styles */
+.message {
+  margin-top: 15px;
+  font-size: 14px;
+  text-align: center;
+  min-height: 20px;
+}
+
+.message:not(:empty) {
+  padding: 10px;
+  background: #fdedee;
+  color: #c62828;
+  border-radius: 4px;
+  border: 1px solid #ffcdd2;
+}
+
+.info {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-left: 4px solid #4CAF50;
+}
+
+/* ===== DASHBOARD LAYOUT (Top to Bottom) ===== */
+.dashboard.compact, 
+.graphs-row, 
+.controls {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto 30px auto; 
+}
+
 /* ===== Full Width Header ===== */
 .main-header {
-  height: 80px;
-  width: 100%;                  
+  width: 100%;   
+  HEIGHT: 85PX;               
   background: #ffffff; 
   border-bottom: 2px solid #2E7D32;
   padding: 15px 0;
@@ -36,11 +149,17 @@ body {
   position: relative;
 }
 
+.title-group {
+  flex-grow: 1;     
+  text-align: center;
+}
+
 .title-group h1 {
   color: #2E7D32;
   font-size: 24px;
 }
 
+/* Logout Button */
 .main-header .logout-btn {
   position: absolute;
   right: 20px;
@@ -59,16 +178,7 @@ body {
   color: #ffffff;
 }
 
-/* ===== Layout Container ===== */
-.dashboard.compact, 
-.graphs-row, 
-.controls {
-  width: 95%;
-  max-width: 1300px;
-  margin: 0 auto 20px auto;
-}
-
-/* ===== Sensor Cards (Top Row) ===== */
+/* Sensor Status Section */
 .dashboard.compact {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -78,7 +188,7 @@ body {
 .status-card {
   background: white;
   padding: 30px;
-  border-radius: 20px; /* Rounded corners as seen in your image */
+  border-radius: 20px; 
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   text-align: center;
 }
@@ -93,7 +203,7 @@ body {
   margin: 15px 0;
 }
 
-/* ===== Graphs Row ===== */
+/* Graphs Section */
 .graphs-row {
   display: flex;
   flex-wrap: wrap;
@@ -123,7 +233,7 @@ body {
   width: 100% !important;
 }
 
-/* ===== Manual Control Panel ===== */
+/* Control Panel Section */
 .controls {
   background: white;
   padding: 30px;
@@ -153,6 +263,7 @@ body {
   text-align: center;
 }
 
+/* Switch UI */
 .switch-row {
   display: flex;
   justify-content: center;
@@ -161,7 +272,14 @@ body {
   margin-top: 10px;
 }
 
-/* Toggle Switch */
+.switch-row span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #444;
+  line-height: 1;        
+  margin: 0;              
+}
+
 .switch {
   position: relative;
   display: inline-block;
@@ -193,12 +311,12 @@ body {
 input:checked + .slider { background-color: #4CAF50; }
 input:checked + .slider:before { transform: translateX(24px); }
 
-/* ===== Modal ===== */
+/* Modal Styling */
 #logoutModal {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.7);
   backdrop-filter: blur(5px);
   justify-content: center;
   align-items: center;
@@ -207,17 +325,46 @@ input:checked + .slider:before { transform: translateX(24px); }
 
 .modal-box {
   background: white;
-  padding: 30px;
+  padding: 35px;
   border-radius: 15px;
   width: 350px;
   text-align: center;
-  position: relative;
+}
+
+/* Ensure modal buttons match your theme */
+.modal-box button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-box button:not(.secondary) {
+  background: #2E7D32;
+  color: white;
+}
+
+.modal-box button.secondary {
+  background: #eee;
+  color: #333;
 }
 
 .modal-close {
   position: absolute;
-  top: 10px; left: 15px;
+  top: 10px; 
+  left: 15px;   
   cursor: pointer;
   font-size: 20px;
   color: #999;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: #C62828;   
 }

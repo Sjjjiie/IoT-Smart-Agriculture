@@ -58,7 +58,20 @@ options: {
         }
       },
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        min: 0,
+        max: 100, // Fixed at 100%
+        title: {
+          display: true,
+          text: "Moisture Level (%)"
+        },
+        ticks: {
+          font: { size: 11 },
+          // Append the % sign to the axis labels
+          callback: function(value) {
+            return value + "%";
+          }
+        }
       }
     }
   }
@@ -100,20 +113,36 @@ options: {
         }
       },
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        min: 0,
+        max: 100, // Fixed at 100%
+        title: {
+          display: true,
+          text: "Moisture Level (%)"
+        },
+        ticks: {
+          font: { size: 11 },
+          // Append the % sign to the axis labels
+          callback: function(value) {
+            return value + "%";
+          }
+        }
       }
     }
   }
 });
 
 /* ===================== HELPERS ===================== */
-function addDataToChart(chart, label, value) {
+function addDataToChart(chart, label, rawValue) {
+  // Convert 4095-0 range to 0-100% (Higher % = Wetter)
+  const percentage = Math.round((1 - rawValue / 4095) * 100);
+
   if (chart.data.labels.length >= 20) {
     chart.data.labels.shift();
     chart.data.datasets[0].data.shift();
   }
   chart.data.labels.push(label);
-  chart.data.datasets[0].data.push(value);
+  chart.data.datasets[0].data.push(percentage);
   chart.update();
 }
 

@@ -8,7 +8,9 @@ import os
 # ----------------------------
 # Firebase init
 # ----------------------------
-cred = credentials.Certificate("../credentials/firebase-key.json")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+KEY_PATH = os.path.join(BASE_DIR, "credentials", "firebase-key.json")
+cred = credentials.Certificate(KEY_PATH)
 initialize_app(cred, {
     "databaseURL": "https://agricultureiot-e0eff-default-rtdb.asia-southeast1.firebasedatabase.app/"
 })
