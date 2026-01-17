@@ -1,39 +1,27 @@
 from flask import Flask, request, jsonify
-import time
-import firebase_admin
-from firebase_admin import credentials, db
+from firebase_admin import db
 
-# ================= FIREBASE =================
-cred = credentials.Certificate("../credentials/firebase-key.json")
-firebase_admin.initialize_app(cred, {
-    "databaseURL": "https://agricultureiot-e0eff-default-rtdb.asia-southeast1.firebasedatabase.app"
-})
-
-print("✅ Firebase initialized")
-
-# ================= FLASK APP =================
 app = Flask(__name__)
 
+# POST sensors from ESP32
 @app.route("/api/sensors", methods=["POST"])
-def receive_sensor_data():
-    try:
-        data = request.get_json()
-        timestamp = int(time.time())
-
-        ref = db.reference("/")
-        ref.child("latest").set(data)
-        ref.child("sensor_readings").child(str(timestamp)).set(data)
-
-        return jsonify({"status": "success"}), 200
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+def sensors():
+    data = request.json
+    db.reference("sensors").push(data)
+    return jsonify({"status": "success"}), 200
 
 
-@app.route("/")
-def health_check():
-    return "Smart Agriculture Backend Running", 200
+# ESP32 polls this to get manual control
+@app.route("/api/manual_control", methods=["GET"])
+def manual_control():
+    control = db.reference("esp_control").get()
+    if control is None:
+        control = {"servoGate": 0, "servoRoof": 0}
+    return jsonify(control), 200
 
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+# route to accept control from backend and store for ESP32
+@app.route("/api/control", methods=["POST"])
+def control():
+    data = request.json
+    db.reference("esp_control").set(data)
+    return jsonify({"status": "ok"}), 200
