@@ -11,34 +11,38 @@ def sensors():
     if not data:
         return jsonify({"status": "error", "message": "No data received"}), 400
 
-    # Get unix timestamp from the incoming data or generate one locally
-    # Based on your image, the keys are Unix timestamps like 1768634850
     timestamp = data.get("timestamp_unix") 
     if not timestamp:
         timestamp = int(time.time())
 
-    # 1. Update the 'latest' node: This overwrites previous data so only 
-    # the current reading exists here for the dashboard cards.
     db.reference("latest").set(data)
-
-    # 2. Save to 'sensor_readings': This uses the timestamp as the child key
-    # to store historical data for your graphs.
     db.reference("sensor_readings").child(str(timestamp)).set(data)
 
     return jsonify({"status": "success"}), 200
 
-
 # ESP32 polls this to get manual control
 @app.route("/api/manual_control", methods=["GET"])
 def manual_control():
-    control = db.reference("esp_control").get()
+    control = db.reference("manual_control").get()
+    
+    # If the node doesn't exist yet, return default integers for the ESP32
     if control is None:
-        control = {"servoGate": 0, "servoRoof": 0}
-    return jsonify(control), 200
+        return jsonify({"gateState": 0, "roofState": 0}), 200
+    
+    gate_val = control.get("gateState", "OFF")
+    roof_val = control.get("roofState", "OFF")
+    
+    payload = {
+        "gateState": 1 if gate_val == "ON" or gate_val == 1 else 0,
+        "roofState": 1 if roof_val == "ON" or roof_val == 1 else 0
+    }
+    
+    return jsonify(payload), 200
 
-# route to accept control from backend and store for ESP32
+# Route to accept control from the listener and store it
 @app.route("/api/control", methods=["POST"])
 def control():
     data = request.json
-    db.reference("esp_control").set(data)
+    # Changed from "esp_control" to "manual_control"
+    db.reference("manual_control").update(data)
     return jsonify({"status": "ok"}), 200
