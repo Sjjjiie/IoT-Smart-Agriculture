@@ -27,10 +27,13 @@ Servo roofCover;
 
 /* ================= TIMING CONTROL ================= */
 unsigned long previousMillis = 0;
-const long interval          = 5000; // Sensor update interval
+const long interval          = 5000; 
 
 unsigned long controlMillis  = 0;
-const long controlInterval   = 2000; // Manual control check interval
+const long controlInterval   = 2000; 
+
+int lastGateState = -1;
+int lastRoofState = -1;
 
 /* ================= SETUP ================= */
 void setup() {
@@ -62,24 +65,20 @@ void setup() {
 
 /* ================= MANUAL CONTROL CALLBACK ================= */
 void manualControlCallback() {
-  if (WiFi.status() != WL_CONNECTED) return;
-
   HTTPClient http;
   http.begin(API_CONTROL_URL);
-  
-  int responseCode = http.GET();
+  int httpCode = http.GET();
 
-  if (responseCode == 200) {
+  if (httpCode == 200) {
     String payload = http.getString();
+    DynamicJsonDocument doc(1024);
+    deserializeJson(doc, payload);
 
-    StaticJsonDocument<256> doc;
-    DeserializationError error = deserializeJson(doc, payload);
+    int gateState = doc["gateState"];
+    int roofState = doc["roofState"];
 
-    if (!error) {
-      // API provides 1 for ON, 0 for OFF
-      int gateState = doc["gateState"]; 
-      int roofState = doc["roofState"]; 
-
+    // Only apply if state changes
+    if (gateState != lastGateState || roofState != lastRoofState) {
       int gateAngle = (gateState == 1) ? 180 : 0;
       int roofAngle = (roofState == 1) ? 180 : 0;
 
@@ -87,13 +86,17 @@ void manualControlCallback() {
       roofCover.write(roofAngle);
 
       Serial.println("🛠 Manual control applied:");
-      Serial.print("  Gate: "); Serial.print(gateState); Serial.print(" -> "); Serial.println(gateAngle);
-      Serial.print("  Roof: "); Serial.print(roofState); Serial.print(" -> "); Serial.println(roofAngle);
+      Serial.print("  Gate state: "); Serial.println(gateState);
+      Serial.print("  Roof state: "); Serial.println(roofState);
+
+      lastGateState = gateState;
+      lastRoofState = roofState;
     }
   }
 
   http.end();
 }
+
 
 /* ================= MAIN LOOP ================= */
 void loop() {
