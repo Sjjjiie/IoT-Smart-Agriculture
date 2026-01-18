@@ -15,7 +15,11 @@ def sensors():
     if not timestamp:
         timestamp = int(time.time())
 
-    db.reference("latest").set(data)
+    db.reference("latest").set({
+        **data,
+        "timestamp": timestamp
+    })
+
     db.reference("sensor_readings").child(str(timestamp)).set(data)
 
     return jsonify({"status": "success"}), 200
