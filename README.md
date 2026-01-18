@@ -93,6 +93,7 @@ source venv/bin/activate
 
 # Install Dependencies
 pip install firebase-admin
+pip install Flask
 
 # Configure Firebase Credentials
 mkdir -p credentials
