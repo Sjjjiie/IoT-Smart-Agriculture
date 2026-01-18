@@ -1,6 +1,6 @@
 import time
 from flask import Flask, request, jsonify
-from firebase_admin import db
+from firebase_admin import db  # Uses initialized app from main.py
 
 app = Flask(__name__)
 
@@ -15,11 +15,13 @@ def sensors():
     if not timestamp:
         timestamp = int(time.time())
 
+    # Update latest sensor readings
     db.reference("latest").set({
         **data,
         "timestamp": timestamp
     })
 
+    # Store historical sensor readings
     db.reference("sensor_readings").child(str(timestamp)).set(data)
 
     return jsonify({"status": "success"}), 200
@@ -40,10 +42,9 @@ def manual_control():
     
     return jsonify(payload), 200
 
-# Route to accept control from the listener and store it
+# Accept manual control from frontend
 @app.route("/api/control", methods=["POST"])
 def control():
     data = request.json
-    # Changed from "esp_control" to "manual_control"
     db.reference("manual_control").update(data)
     return jsonify({"status": "ok"}), 200

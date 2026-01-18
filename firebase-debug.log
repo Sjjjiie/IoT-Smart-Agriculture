@@ -1,0 +1,66 @@
+[debug] [2026-01-18T10:05:33.683Z] ----------------------------------------------------------------------
+[debug] [2026-01-18T10:05:33.688Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\User\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2026-01-18T10:05:33.688Z] CLI Version:   15.2.1
+[debug] [2026-01-18T10:05:33.688Z] Platform:      win32
+[debug] [2026-01-18T10:05:33.688Z] Node Version:  v24.11.0
+[debug] [2026-01-18T10:05:33.689Z] Time:          Sun Jan 18 2026 18:05:33 GMT+0800 (Malaysia Time)
+[debug] [2026-01-18T10:05:33.689Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-01-18T10:05:33.692Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-01-18T10:05:36.431Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-18T10:05:36.431Z] > authorizing via signed-in user (tkjun7559@gmail.com)
+[debug] [2026-01-18T10:05:36.432Z] [iam] checking project agricultureiot-e0eff for permissions ["firebase.projects.get"]
+[debug] [2026-01-18T10:05:36.432Z] Checked if tokens are valid: false, expires at: 1767982321817
+[debug] [2026-01-18T10:05:36.432Z] Checked if tokens are valid: false, expires at: 1767982321817
+[debug] [2026-01-18T10:05:36.432Z] > refreshing access token with scopes: []
+[debug] [2026-01-18T10:05:36.433Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-01-18T10:05:36.433Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-18T10:05:36.539Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-01-18T10:05:36.539Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-18T10:05:36.548Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/agricultureiot-e0eff:testIamPermissions [none]
+[debug] [2026-01-18T10:05:36.548Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/agricultureiot-e0eff:testIamPermissions x-goog-quota-user=projects/agricultureiot-e0eff
+[debug] [2026-01-18T10:05:36.548Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/agricultureiot-e0eff:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2026-01-18T10:05:36.905Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-01-18T10:05:36.906Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-01-18T10:05:37.649Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/agricultureiot-e0eff:testIamPermissions 200
+[debug] [2026-01-18T10:05:37.649Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/agricultureiot-e0eff:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2026-01-18T10:05:37.651Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:37.651Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:37.651Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/agricultureiot-e0eff/services/cloudresourcemanager.googleapis.com [none]
+[debug] [2026-01-18T10:05:37.651Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/agricultureiot-e0eff/services/cloudresourcemanager.googleapis.com x-goog-quota-user=projects/agricultureiot-e0eff
+[debug] [2026-01-18T10:05:39.135Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/agricultureiot-e0eff/services/cloudresourcemanager.googleapis.com 200
+[debug] [2026-01-18T10:05:39.135Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/agricultureiot-e0eff/services/cloudresourcemanager.googleapis.com [omitted]
+[debug] [2026-01-18T10:05:39.139Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:39.140Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:39.140Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/agricultureiot-e0eff [none]
+[debug] [2026-01-18T10:05:39.400Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/agricultureiot-e0eff 200
+[debug] [2026-01-18T10:05:39.400Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/agricultureiot-e0eff {"projectNumber":"902087703549","projectId":"agricultureiot-e0eff","lifecycleState":"ACTIVE","name":"agricultureIoT","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-01-16T15:22:05.200499Z"}
+[info] 
+[info] === Serving from 'C:\Users\User\Desktop\CPC_Ass2\IoT-Smart-Agriculture'...
+[info] 
+[debug] [2026-01-18T10:05:39.403Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:39.403Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:39.403Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/agricultureiot-e0eff/sites 
+[debug] [2026-01-18T10:05:40.826Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/agricultureiot-e0eff/sites 200
+[debug] [2026-01-18T10:05:40.826Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/agricultureiot-e0eff/sites {"sites":[{"name":"projects/agricultureiot-e0eff/sites/agricultureiot-e0eff","defaultUrl":"https://agricultureiot-e0eff.web.app","appId":"1:902087703549:web:bc8800fd420d32bd1af794","type":"DEFAULT_SITE"}]}
+[debug] [2026-01-18T10:05:40.826Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:40.826Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:40.826Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/agricultureiot-e0eff/webApps/1:902087703549:web:bc8800fd420d32bd1af794/config [none]
+[debug] [2026-01-18T10:05:41.688Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/agricultureiot-e0eff/webApps/1:902087703549:web:bc8800fd420d32bd1af794/config 200
+[debug] [2026-01-18T10:05:41.688Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/agricultureiot-e0eff/webApps/1:902087703549:web:bc8800fd420d32bd1af794/config {"projectId":"agricultureiot-e0eff","appId":"1:902087703549:web:bc8800fd420d32bd1af794","databaseURL":"https://agricultureiot-e0eff-default-rtdb.asia-southeast1.firebasedatabase.app","storageBucket":"agricultureiot-e0eff.firebasestorage.app","apiKey":"AIzaSyCs6_E8Y7gJtpYC-M6jmTRgLIOotQjhFhk","authDomain":"agricultureiot-e0eff.firebaseapp.com","messagingSenderId":"902087703549","projectNumber":"902087703549","version":"2"}
+[debug] [2026-01-18T10:05:41.698Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:41.699Z] Checked if tokens are valid: true, expires at: 1768734335539
+[debug] [2026-01-18T10:05:41.699Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/agricultureiot-e0eff [none]
+[debug] [2026-01-18T10:05:42.192Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/agricultureiot-e0eff 200
+[debug] [2026-01-18T10:05:42.192Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/agricultureiot-e0eff {"projectId":"agricultureiot-e0eff","projectNumber":"902087703549","displayName":"agricultureIoT","name":"projects/agricultureiot-e0eff","resources":{"hostingSite":"agricultureiot-e0eff","realtimeDatabaseInstance":"agricultureiot-e0eff-default-rtdb"},"state":"ACTIVE","etag":"1_44394431-ec04-4b7e-8b5d-b80fd85d882b"}
+[info] i  hosting[agricultureiot-e0eff]: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpublic\u001b[22m"}}
+[info] +  hosting[agricultureiot-e0eff]: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
+[info] i  hosting: ::1 - - [18/Jan/2026:10:05:46 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [18/Jan/2026:10:05:46 +0000] \"GET / HTTP/1.1\" 200 - \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36\""}}
+[info] i  hosting: ::1 - - [18/Jan/2026:10:05:46 +0000] "GET /style.css HTTP/1.1" 200 - "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [18/Jan/2026:10:05:46 +0000] \"GET /style.css HTTP/1.1\" 200 - \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36\""}}
+[info] i  hosting: ::1 - - [18/Jan/2026:10:05:46 +0000] "GET /app.js HTTP/1.1" 200 - "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [18/Jan/2026:10:05:46 +0000] \"GET /app.js HTTP/1.1\" 200 - \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36\""}}
+[info] i  hosting: ::1 - - [18/Jan/2026:10:05:46 +0000] "GET /config.js?v=1 HTTP/1.1" 404 - "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [18/Jan/2026:10:05:46 +0000] \"GET /config.js?v=1 HTTP/1.1\" 404 - \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36\""}}
+[info] i  hosting: ::1 - - [18/Jan/2026:10:05:46 +0000] "GET /config.js HTTP/1.1" 404 - "http://localhost:5000/app.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [18/Jan/2026:10:05:46 +0000] \"GET /config.js HTTP/1.1\" 404 - \"http://localhost:5000/app.js\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36\""}}
+[info] i  hosting: ::1 - - [18/Jan/2026:10:05:46 +0000] "GET /favicon.ico HTTP/1.1" 404 - "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [18/Jan/2026:10:05:46 +0000] \"GET /favicon.ico HTTP/1.1\" 404 - \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36\""}}
+[info] i  hosting: ::1 - - [18/Jan/2026:10:05:47 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [18/Jan/2026:10:05:47 +0000] \"GET / HTTP/1.1\" 200 - \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36\""}}
+[info] i  hosting: ::1 - - [18/Jan/2026:10:05:48 +0000] "GET /config.js?v=1 HTTP/1.1" 404 - "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [18/Jan/2026:10:05:48 +0000] \"GET /config.js?v=1 HTTP/1.1\" 404 - \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36\""}}
+[info] i  hosting: ::1 - - [18/Jan/2026:10:05:48 +0000] "GET /config.js HTTP/1.1" 404 - "http://localhost:5000/app.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [18/Jan/2026:10:05:48 +0000] \"GET /config.js HTTP/1.1\" 404 - \"http://localhost:5000/app.js\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36\""}}

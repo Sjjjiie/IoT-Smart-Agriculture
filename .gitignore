@@ -11,3 +11,4 @@ credentials/
 # Config files
 config.js
 *.json
+node_modules
