@@ -61,12 +61,14 @@ The system is composed of three main layers:
 
 2. **Run Arduino firmware**
    - Upload `.ino` firmware to ESP32
+   - Update the API_URL and API_CONTROL_URL variables with your GCP VM external IP address
    - ESP32 starts sending sensor data and polling control commands
 
 3. **Configure GCP**
    - Create a Compute Engine VM
-   - Set firewall rules (HTTP / Custom ports)
+   - Set firewall rules (HTTP / Custom ports) to allow traffic on HTTP and port 5000
    - Assign external IP
+   - Note: If you stop and restart your VM, the external IP address will change. You must update the IP in your Arduino firmware every time this happens unless you promote it to a Static IP in the GCP console
 
 4. **Run backend services**
    - Backend listens for ESP32 requests
@@ -81,6 +83,12 @@ The system is composed of three main layers:
 ---
 
 ## 🚀 Deployment on GCP VM
+
+> ### ⚠️ Important Note on IP Addresses
+> Standard GCP VM instances use **ephemeral** external IP addresses. If you **Stop** and **Start** your VM, the IP address will change. You must perform the following steps:
+> 1.  **Check the new External IP** in the Google Cloud Console.
+> 2.  **Update the variables** `API_URL` and `API_CONTROL_URL` in your `sketch.ino` file with the new IP address.
+> 3.  **Re-upload or restart** your ESP32 simulation to reconnect to the server.
 
 ```bash
 # Clone Repository
@@ -138,8 +146,20 @@ PYTHONPATH=. python3 backend/main.py
 * **Scalable architecture**: Utilizes a modular design which is divided into Perception, Network, Processing, and Application layers.
 
 ## 🛠 Technologies Used
+ESP32 / Arduino
 
-* **Hardware**: ESP32 Microcontroller and Wokwi Simulator.
-* **Backend**: Python (Flask) and Firebase Admin SDK.
+Python (Flask)
+
+Firebase Realtime Database
+
+Firebase Authentication
+
+Google Cloud Platform (Compute Engine)
+
+HTML, CSS, JavaScript
+
+Wokwi Simulator
+* **Hardware**: ESP32 Microcontroller and Wokwi Simulator
+* **Backend**: Python (Flask) and Firebase Admin SDK
 * **Cloud & Database**: Firebase Realtime Database, Firebase Authentication, and Google Cloud Platform.
 * **Frontend**: HTML5, CSS3, JavaScript (ES6), and Chart.js for data visualization.
