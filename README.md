@@ -92,7 +92,8 @@ python3 -m venv venv
 source venv/bin/activate
 
 # Install Dependencies
-pip install -r requirements.txt
+pip install firebase-admin
+pip install Flask
 
 # Configure Firebase Credentials
 mkdir -p credentials
