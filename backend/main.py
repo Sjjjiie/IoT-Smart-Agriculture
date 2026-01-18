@@ -7,7 +7,7 @@ from manual_control import start_manual_control_listener  # your listener
 # ----------------------------
 # Firebase initialization
 # ----------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
 KEY_PATH = os.path.join(BASE_DIR, "credentials", "firebase-key.json")  # Update path
 cred = credentials.Certificate(KEY_PATH)
 initialize_app(cred, {
